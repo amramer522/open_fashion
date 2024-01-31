@@ -20,27 +20,50 @@ class _VideoSectionState extends State<VideoSection> {
       });
   }
 
+  bool hideControllers = false;
+
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 176,
       margin: EdgeInsets.only(top: 32, bottom: 46),
-      color: Colors.green,
-      // child: _controller.value.isInitialized
-      //     ?VideoPlayer(_controller)
-      // // Stack(
-      // //         fit: StackFit.expand,
-      // //         children: [
-      // //           GestureDetector(
-      // //               onTap: () {
-      // //                 setState(() {
-      // //                   _controller.value.isPlaying ? _controller.pause() : _controller.play();
-      // //                 });
-      // //               },
-      // //               child: Icon(_controller.value.isPlaying ? Icons.pause : Icons.play_arrow)),
-      // //         ],
-      // //       )
-      //     : Center(child: CircularProgressIndicator()),
+      child: _controller.value.isInitialized
+          ? GestureDetector(
+              onTap: () {
+                hideControllers = false;
+                setState(() {});
+              },
+              child: Stack(
+                alignment: AlignmentDirectional.center,
+                children: [
+                  VideoPlayer(_controller),
+                  StatefulBuilder(builder: (context, setState) {
+                    return Visibility(
+                      visible: !hideControllers,
+                      child: GestureDetector(
+                        onTap: () async {
+                          if (_controller.value.isPlaying) {
+                            await _controller.pause();
+                          } else {
+                            await _controller.play();
+                          }
+
+                          setState(() {});
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: Colors.black,
+                          child: Icon(
+                            _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    );
+                  })
+                ],
+              ),
+            )
+          : Center(child: CircularProgressIndicator()),
     );
   }
 }

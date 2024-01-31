@@ -60,11 +60,11 @@ class HomeView extends StatelessWidget {
       ),
       body: ListView(
         children: [
-          SliderSection(),
-          NewArrivalSection(),
-          BrandsSection(),
+          // SliderSection(),
+          // NewArrivalSection(),
+          // BrandsSection(),
           // CollectionsSection(),
-          // VideoSection(),
+          VideoSection(),
           JustForYouSection(),
           TrendingSection(),
           AppFeaturesSection(),
